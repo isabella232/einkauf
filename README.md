@@ -1,2 +1,3 @@
 # einkauf
-android app für den einkauf
+android app für den einkauf (einkaufszettel)
+
