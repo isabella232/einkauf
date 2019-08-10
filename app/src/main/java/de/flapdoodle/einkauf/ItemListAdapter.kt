@@ -1,4 +1,4 @@
-package com.example.android.roomwordssample
+package de.flapdoodle.einkauf
 
 /*
  * Copyright (C) 2017 Google Inc.
@@ -15,7 +15,7 @@ package com.example.android.roomwordssample
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
+
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -23,29 +23,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 
-
-class WordListAdapter internal constructor(
+class ItemListAdapter internal constructor(
         context: Context
-) : RecyclerView.Adapter<WordListAdapter.WordViewHolder>() {
+) : RecyclerView.Adapter<ItemListAdapter.ItemViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-    private var words = emptyList<Word>() // Cached copy of words
+    private var words = emptyList<Item>() // Cached copy of words
 
-    inner class WordViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val wordItemView: TextView = itemView.findViewById(R.id.textView)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val itemView = inflater.inflate(R.layout.recyclerview_item, parent, false)
-        return WordViewHolder(itemView)
+        return ItemViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val current = words[position]
-        holder.wordItemView.text = current.word
+        holder.wordItemView.text = current.name
     }
 
-    internal fun setWords(words: List<Word>) {
+    internal fun setWords(words: List<Item>) {
         this.words = words
         notifyDataSetChanged()
     }
@@ -53,4 +52,4 @@ class WordListAdapter internal constructor(
     override fun getItemCount() = words.size
 }
 
-*/
+

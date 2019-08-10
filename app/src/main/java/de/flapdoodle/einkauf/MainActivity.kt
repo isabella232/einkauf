@@ -1,4 +1,4 @@
-package com.example.android.roomwordssample
+package de.flapdoodle.einkauf
 
 /*
  * Copyright (C) 2017 Google Inc.
@@ -16,7 +16,6 @@ package com.example.android.roomwordssample
  * limitations under the License.
  */
 
-/*
 import android.app.Activity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -32,7 +31,7 @@ import android.widget.Toast
 class MainActivity : AppCompatActivity() {
 
     private val newWordActivityRequestCode = 1
-    private lateinit var wordViewModel: WordViewModel
+    private lateinit var wordViewModel: ItemViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,12 +41,12 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
-        val adapter = WordListAdapter(this)
+        val adapter = ItemListAdapter(this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         // Get a new or existing ViewModel from the ViewModelProvider.
-        wordViewModel = ViewModelProviders.of(this).get(WordViewModel::class.java)
+        wordViewModel = ViewModelProviders.of(this).get(ItemViewModel::class.java)
 
         // Add an observer on the LiveData returned by getAlphabetizedWords.
         // The onChanged() method fires when the observed data changes and the activity is
@@ -59,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
-            val intent = Intent(this@MainActivity, NewWordActivity::class.java)
+            val intent = Intent(this@MainActivity, NewItemActivity::class.java)
             startActivityForResult(intent, newWordActivityRequestCode)
         }
     }
@@ -69,7 +68,7 @@ class MainActivity : AppCompatActivity() {
 
         if (requestCode == newWordActivityRequestCode && resultCode == Activity.RESULT_OK) {
             intentData?.let { data ->
-                val word = Word(data.getStringExtra(NewWordActivity.EXTRA_REPLY))
+                val word = Item(-1, data.getStringExtra(NewItemActivity.EXTRA_REPLY))
                 wordViewModel.insert(word)
             }
         } else {
@@ -81,4 +80,3 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
-*/

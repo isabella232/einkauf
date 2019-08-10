@@ -1,4 +1,4 @@
-package com.example.android.roomwordssample
+package de.flapdoodle.einkauf
 
 /*
  * Copyright (C) 2017 Google Inc.
@@ -16,7 +16,6 @@ package com.example.android.roomwordssample
  * limitations under the License.
  */
 
-/*
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -24,13 +23,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.text.TextUtils
 import android.widget.Button
 import android.widget.EditText
-*/
 
 /**
  * Activity for entering a word.
  */
-/*
-class NewWordActivity : AppCompatActivity() {
+
+class NewItemActivity : AppCompatActivity() {
 
     private lateinit var editWordView: EditText
 
@@ -54,8 +52,7 @@ class NewWordActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val EXTRA_REPLY = "com.example.android.wordlistsql.REPLY"
+        const val EXTRA_REPLY = "de.flapdoodle.einkauf.itemlistsql.REPLY"
     }
 }
 
-*/
