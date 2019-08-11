@@ -34,12 +34,12 @@ class ItemViewModel(application: Application) : AndroidViewModel(application) {
     // - We can put an observer on the data (instead of polling for changes) and only update the
     //   the UI when the data actually changes.
     // - Repository is completely separated from the UI through the ViewModel.
-    val allWords: LiveData<List<Item>>
+    val allItems: LiveData<List<Item>>
 
     init {
         val itemsDao = ItemDatabase.getDatabase(application, viewModelScope).itemDao()
         repository = ItemRepository(itemsDao)
-        allWords = repository.allWords
+        allItems = repository.allItems
     }
 
     /**

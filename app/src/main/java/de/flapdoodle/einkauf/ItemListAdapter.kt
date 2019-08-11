@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Spinner
 import android.widget.TextView
 
 class ItemListAdapter internal constructor(
@@ -31,7 +32,9 @@ class ItemListAdapter internal constructor(
     private var words = emptyList<Item>() // Cached copy of words
 
     inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val wordItemView: TextView = itemView.findViewById(R.id.textView)
+        val nameView: TextView = itemView.findViewById(R.id.textView)
+        val priceView: TextView = itemView.findViewById(R.id.price)
+        val amountView: Spinner = itemView.findViewById(R.id.amount)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -41,7 +44,9 @@ class ItemListAdapter internal constructor(
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val current = words[position]
-        holder.wordItemView.text = current.name
+        holder.nameView.text = current.name
+        holder.priceView.text = "${current.unitPriceCent.toDouble() / 100.0} €"
+        holder.amountView.setSelection(0)
     }
 
     internal fun setWords(words: List<Item>) {

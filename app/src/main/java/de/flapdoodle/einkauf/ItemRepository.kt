@@ -26,7 +26,7 @@ class ItemRepository(private val itemDao: ItemDao) {
 
     // Room executes all queries on a separate thread.
     // Observed LiveData will notify the observer when the data has changed.
-    val allWords: LiveData<List<Item>> = itemDao.getAllItems()
+    val allItems: LiveData<List<Item>> = itemDao.getAllItems()
 
     // The suspend modifier tells the compiler that this must be called from a
     // coroutine or another suspend function.

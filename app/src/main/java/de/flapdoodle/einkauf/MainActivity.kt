@@ -23,15 +23,17 @@ import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.appcompat.widget.Toolbar
 import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+
 
 class MainActivity : AppCompatActivity() {
 
     private val newWordActivityRequestCode = 1
-    private lateinit var wordViewModel: ItemViewModel
+    private lateinit var itemViewModel: ItemViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,14 +46,15 @@ class MainActivity : AppCompatActivity() {
         val adapter = ItemListAdapter(this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
+        //recyclerView.layoutManager = GridLayoutManager(this, 2)
 
         // Get a new or existing ViewModel from the ViewModelProvider.
-        wordViewModel = ViewModelProviders.of(this).get(ItemViewModel::class.java)
+        itemViewModel = ViewModelProviders.of(this).get(ItemViewModel::class.java)
 
         // Add an observer on the LiveData returned by getAlphabetizedWords.
         // The onChanged() method fires when the observed data changes and the activity is
         // in the foreground.
-        wordViewModel.allWords.observe(this, Observer { words ->
+        itemViewModel.allItems.observe(this, Observer { words ->
             // Update the cached copy of the words in the adapter.
             words?.let { adapter.setWords(it) }
         })
@@ -69,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == newWordActivityRequestCode && resultCode == Activity.RESULT_OK) {
             intentData?.let { data ->
                 val word = Item(-1, data.getStringExtra(NewItemActivity.EXTRA_REPLY))
-                wordViewModel.insert(word)
+                itemViewModel.insert(word)
             }
         } else {
             Toast.makeText(

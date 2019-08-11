@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         // Add an observer on the LiveData returned by getAlphabetizedWords.
         // The onChanged() method fires when the observed data changes and the activity is
         // in the foreground.
-        wordViewModel.allWords.observe(this, Observer { words ->
+        wordViewModel.allItems.observe(this, Observer { words ->
             // Update the cached copy of the words in the adapter.
             words?.let { adapter.setWords(it) }
         })
