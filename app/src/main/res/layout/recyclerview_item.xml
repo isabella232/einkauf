@@ -46,7 +46,8 @@ limitations under the License. -->
                 android:layout_weight="0" app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/price"
-                app:layout_constraintStart_toEndOf="@+id/textView" android:spinnerMode="dropdown"/>
+                app:layout_constraintStart_toEndOf="@+id/textView" android:spinnerMode="dropdown"
+                android:entries="@array/counts" android:dropDownWidth="match_parent"/>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/price"
