@@ -21,6 +21,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import java.util.concurrent.Executors
 
 /**
  * View Model to keep a reference to the word repository and
@@ -47,5 +48,23 @@ class ItemViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun insert(item: Item) = viewModelScope.launch {
         repository.insert(item)
+    }
+
+    fun updateAmount(item: Item, amount: Int) {
+        Executors.newSingleThreadExecutor().execute {
+            repository.updatedAmount(item.id!!, amount)
+        }
+    }
+
+    fun updateActive(item: Item, active: Boolean) {
+        Executors.newSingleThreadExecutor().execute {
+            repository.updateActive(item.id!!, active)
+        }
+    }
+
+    fun delete(item: Item) {
+        Executors.newSingleThreadExecutor().execute {
+            repository.delete(item.id!!)
+        }
     }
 }

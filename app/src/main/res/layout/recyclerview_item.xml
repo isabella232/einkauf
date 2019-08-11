@@ -25,7 +25,7 @@ limitations under the License. -->
 
         <CheckBox
                 android:layout_width="wrap_content"
-                android:layout_height="0dp" android:id="@+id/check"
+                android:layout_height="0dp" android:id="@+id/active"
                 android:layout_weight="0" app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_chainStyle="spread"
@@ -38,7 +38,7 @@ limitations under the License. -->
                 android:layout_weight="1" app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/amount"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/check"
+                app:layout_constraintStart_toEndOf="@+id/active"
                 tools:text="Item Name" android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
         <Spinner
                 android:layout_width="wrap_content"
@@ -53,8 +53,18 @@ limitations under the License. -->
                 android:layout_height="wrap_content" android:id="@+id/price"
                 tools:text="0,00€"
                 android:layout_weight="0"
-                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toEndOf="@id/amount"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintEnd_toStartOf="@+id/delete" android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"/>
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/delete"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/price" app:srcCompat="@android:drawable/ic_menu_delete"
+                android:contentDescription="Löschen"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

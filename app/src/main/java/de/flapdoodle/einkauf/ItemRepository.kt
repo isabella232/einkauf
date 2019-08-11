@@ -35,4 +35,18 @@ class ItemRepository(private val itemDao: ItemDao) {
     suspend fun insert(item: Item) {
         itemDao.insert(item)
     }
+
+    fun updatedAmount(id: Int, amount: Int) {
+        val current = itemDao.getItem(id)
+        itemDao.update(current.copy(amount=amount))
+    }
+
+    fun updateActive(id: Int, active: Boolean) {
+        val current = itemDao.getItem(id)
+        itemDao.update(current.copy(active=active))
+    }
+
+    fun delete(id: Int) {
+        itemDao.delete(id)
+    }
 }

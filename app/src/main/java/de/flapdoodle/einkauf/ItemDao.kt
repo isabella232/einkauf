@@ -17,10 +17,7 @@ package de.flapdoodle.einkauf
  */
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 /**
  * The Room Magic is in this file, where you map a Java method call to an SQL query.
@@ -41,9 +38,18 @@ interface ItemDao {
     @Query("SELECT * from item_table ORDER BY id ASC")
     fun getAllItems(): LiveData<List<Item>>
 
+    @Query("SELECT * from item_table where id=:id")
+    fun getItem(id: Int): Item
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(item: Item)
 
     @Query("DELETE FROM item_table")
     suspend fun deleteAll()
+
+    @Update(onConflict = OnConflictStrategy.IGNORE)
+    fun update(item: Item)
+
+    @Query("DELETE FROM item_table WHERE id=:id")
+    fun delete(id: Int)
 }

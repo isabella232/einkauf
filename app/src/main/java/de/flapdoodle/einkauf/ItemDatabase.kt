@@ -86,10 +86,12 @@ abstract class ItemDatabase : RoomDatabase() {
         suspend fun populateDatabase(itemDao: ItemDao) {
             // Start the app with a clean database every time.
             // Not needed if you only populate on creation.
-            itemDao.deleteAll()
+            if (false) {
+                itemDao.deleteAll()
 
-            var word = Item(1,"Test")
-            itemDao.insert(word)
+                var word = Item(1, "Test")
+                itemDao.insert(word)
+            }
         }
     }
 

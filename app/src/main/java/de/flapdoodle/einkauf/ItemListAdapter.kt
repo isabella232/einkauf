@@ -21,13 +21,13 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
 
 class ItemListAdapter internal constructor(
         context: Context,
-        private val onAmountChanged: (Any) -> Unit
+        private val onAmountChanged: (Item, Int) -> Unit,
+        private val onActiveChanged: (Item, Boolean) -> Unit,
+        private val onDelete: (Item) -> Unit
 ) : RecyclerView.Adapter<ItemListAdapter.ItemViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -37,16 +37,25 @@ class ItemListAdapter internal constructor(
         val nameView: TextView = itemView.findViewById(R.id.textView)
         val priceView: TextView = itemView.findViewById(R.id.price)
         val amountView: Spinner = itemView.findViewById(R.id.amount)
+        val checkboxView: CheckBox = itemView.findViewById(R.id.active)
+        val imageButton: ImageButton = itemView.findViewById(R.id.delete)
+        var current: Item? = null
 
         init {
-            amountView.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            amountView.onItemSelectedListener = FixedOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(p0: AdapterView<*>?) {
-                    onAmountChanged(amountView.selectedItem)
+                    //onAmountChanged(current, holder.amountView.selectedItem.toString().toInt())
                 }
 
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    onAmountChanged(amountView.selectedItem)
+                    onAmountChanged(current!!, amountView.selectedItem.toString().toInt())
                 }
+            })
+            checkboxView.setOnCheckedChangeListener { compoundButton, checked ->
+                onActiveChanged(current!!, checked)
+            }
+            imageButton.setOnClickListener {
+                onDelete(current!!)
             }
         }
     }
@@ -58,9 +67,14 @@ class ItemListAdapter internal constructor(
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val current = items[position]
+
+        holder.current = current
         holder.nameView.text = current.name
         holder.priceView.text = "${current.unitPriceCent.toDouble() / 100.0} €"
-        holder.amountView.setSelection(0)
+
+        @Suppress("UNCHECKED_CAST") val ad = holder.amountView.adapter as ArrayAdapter<String>
+        val pos = ad.getPosition(current.amount.toString())
+        holder.amountView.setSelection(pos)
     }
 
     internal fun setItems(items: List<Item>) {

@@ -20,6 +20,6 @@ limitations under the License. -->
     <color name="buttonLabel">#d3d3d3</color>
     <color name="summary_background">#CACACA</color>
     <color name="summary_sum_actual">#008F13</color>
-    <color name="summary_sun_planed">#FFC107</color>
+    <color name="summary_sun_planed">#AC0000</color>
 
 </resources>

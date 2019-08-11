@@ -20,6 +20,7 @@ import android.app.Activity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
 import android.widget.TextView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -28,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.appcompat.widget.Toolbar
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import java.util.concurrent.Executors
 
 
 class MainActivity : AppCompatActivity() {
@@ -39,16 +41,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        itemViewModel = ViewModelProviders.of(this).get(ItemViewModel::class.java)
+
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
-        val adapter = ItemListAdapter(this, {
-            Toast.makeText(
-                applicationContext,
-                "amount: $it",
-                Toast.LENGTH_LONG
-            ).show()
+        val adapter = ItemListAdapter(this, { item, amount ->
+            itemViewModel.updateAmount(item, amount)
+        }, {item, checked ->
+            itemViewModel.updateActive(item, checked)
+        }, { item ->
+            itemViewModel.delete(item)
         })
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -58,7 +62,6 @@ class MainActivity : AppCompatActivity() {
         val sumPlaned: TextView = findViewById(R.id.sum_planed)
 
         // Get a new or existing ViewModel from the ViewModelProvider.
-        itemViewModel = ViewModelProviders.of(this).get(ItemViewModel::class.java)
 
         // Add an observer on the LiveData returned by getAlphabetizedWords.
         // The onChanged() method fires when the observed data changes and the activity is
@@ -69,7 +72,7 @@ class MainActivity : AppCompatActivity() {
 
             sumActual.text=actualSum(items)
             sumPlaned.text=planedSum(items)
-        }) 
+        })
 
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
@@ -103,7 +106,8 @@ class MainActivity : AppCompatActivity() {
                 val price = data.getDoubleExtra(NewItemActivity.EXTRA_REPLY_PRICE, 0.0)
                 val word = Item(
                     name = name,
-                    unitPriceCent = (price * 100).toInt()
+                    unitPriceCent = (price * 100).toInt(),
+                    amount = 1
                 )
                 itemViewModel.insert(word)
             }
