@@ -20,7 +20,6 @@ import android.app.Activity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
-import android.os.AsyncTask
 import android.os.Bundle
 import android.widget.TextView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -29,12 +28,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.appcompat.widget.Toolbar
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import java.util.concurrent.Executors
 
 
 class MainActivity : AppCompatActivity() {
 
-    private val newWordActivityRequestCode = 1
+    private val newItemActivityRequestCode = 1
+    private val editItemActivityRequestCode = 2
+
     private lateinit var itemViewModel: ItemViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +53,12 @@ class MainActivity : AppCompatActivity() {
             itemViewModel.updateActive(item, checked)
         }, { item ->
             itemViewModel.delete(item)
+        }, {item ->
+            val intent = Intent(this@MainActivity, EditItemActivity::class.java)
+            intent.putExtra(EditItemActivity.EXTRA_REPLY_ID, item.id)
+            intent.putExtra(EditItemActivity.EXTRA_REPLY_NAME, item.name)
+            intent.putExtra(EditItemActivity.EXTRA_REPLY_PRICE, item.unitPriceCent)
+            startActivityForResult(intent, editItemActivityRequestCode)
         })
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -77,7 +83,7 @@ class MainActivity : AppCompatActivity() {
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
             val intent = Intent(this@MainActivity, NewItemActivity::class.java)
-            startActivityForResult(intent, newWordActivityRequestCode)
+            startActivityForResult(intent, newItemActivityRequestCode)
         }
     }
 
@@ -100,7 +106,7 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
         super.onActivityResult(requestCode, resultCode, intentData)
 
-        if (requestCode == newWordActivityRequestCode && resultCode == Activity.RESULT_OK) {
+        if (requestCode == newItemActivityRequestCode && resultCode == Activity.RESULT_OK) {
             intentData?.let { data ->
                 val name = data.getStringExtra(NewItemActivity.EXTRA_REPLY_NAME)
                 val price = data.getDoubleExtra(NewItemActivity.EXTRA_REPLY_PRICE, 0.0)
@@ -112,11 +118,22 @@ class MainActivity : AppCompatActivity() {
                 itemViewModel.insert(word)
             }
         } else {
-            Toast.makeText(
+            if (requestCode == editItemActivityRequestCode && resultCode == Activity.RESULT_OK) {
+                intentData?.let { data ->
+                    val id = data.getIntExtra(EditItemActivity.EXTRA_REPLY_ID, -1)
+                    val name = data.getStringExtra(EditItemActivity.EXTRA_REPLY_NAME)
+                    val price = data.getDoubleExtra(EditItemActivity.EXTRA_REPLY_PRICE, 0.0)
+                    if (id!=-1) {
+                        itemViewModel.updateNameAndPrice(id, name, (price * 100).toInt())
+                    }
+                }
+            } else {
+                Toast.makeText(
                     applicationContext,
                     R.string.empty_not_saved,
                     Toast.LENGTH_LONG
-            ).show()
+                ).show()
+            }
         }
     }
 }

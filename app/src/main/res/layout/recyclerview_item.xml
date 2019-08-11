@@ -39,7 +39,8 @@ limitations under the License. -->
                 app:layout_constraintEnd_toStartOf="@id/amount"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/active"
-                tools:text="Item Name" android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+                tools:text="Item Name" android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:clickable="true"/>
         <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="0dp" android:id="@+id/amount"

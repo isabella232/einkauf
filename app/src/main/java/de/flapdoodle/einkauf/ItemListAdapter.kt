@@ -27,7 +27,8 @@ class ItemListAdapter internal constructor(
         context: Context,
         private val onAmountChanged: (Item, Int) -> Unit,
         private val onActiveChanged: (Item, Boolean) -> Unit,
-        private val onDelete: (Item) -> Unit
+        private val onDelete: (Item) -> Unit,
+        private val onEdit: (Item) -> Unit
 ) : RecyclerView.Adapter<ItemListAdapter.ItemViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -56,6 +57,9 @@ class ItemListAdapter internal constructor(
             }
             imageButton.setOnClickListener {
                 onDelete(current!!)
+            }
+            nameView.setOnClickListener {
+                onEdit(current!!)
             }
         }
     }

@@ -49,4 +49,9 @@ class ItemRepository(private val itemDao: ItemDao) {
     fun delete(id: Int) {
         itemDao.delete(id)
     }
+
+    fun updateNameAndPrice(id: Int, name: String, price: Int) {
+        val current = itemDao.getItem(id)
+        itemDao.update(current.copy(name= name, unitPriceCent = price))
+    }
 }

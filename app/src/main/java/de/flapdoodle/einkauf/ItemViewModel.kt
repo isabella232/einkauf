@@ -67,4 +67,10 @@ class ItemViewModel(application: Application) : AndroidViewModel(application) {
             repository.delete(item.id!!)
         }
     }
+
+    fun updateNameAndPrice(id: Int, name: String, price: Int) = viewModelScope.launch {
+        Executors.newSingleThreadExecutor().execute {
+            repository.updateNameAndPrice(id, name, price)
+        }
+    }
 }
