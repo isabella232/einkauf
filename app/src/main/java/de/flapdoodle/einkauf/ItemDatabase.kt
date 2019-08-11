@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
  * This is the backend. The database. This used to be done by the OpenHelper.
  * The fact that this has very few comments emphasizes its coolness.
  */
-@Database(entities = [Item::class], version = 1)
+@Database(entities = [Item::class], version = 2)
 abstract class ItemDatabase : RoomDatabase() {
 
     abstract fun itemDao(): ItemDao

@@ -26,7 +26,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.appcompat.widget.Toolbar
 import android.widget.Toast
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 
 
@@ -71,7 +70,12 @@ class MainActivity : AppCompatActivity() {
 
         if (requestCode == newWordActivityRequestCode && resultCode == Activity.RESULT_OK) {
             intentData?.let { data ->
-                val word = Item(-1, data.getStringExtra(NewItemActivity.EXTRA_REPLY))
+                val name = data.getStringExtra(NewItemActivity.EXTRA_REPLY_NAME)
+                val price = data.getDoubleExtra(NewItemActivity.EXTRA_REPLY_PRICE, 0.0)
+                val word = Item(
+                    name = name,
+                    unitPriceCent = (price * 100).toInt()
+                )
                 itemViewModel.insert(word)
             }
         } else {
