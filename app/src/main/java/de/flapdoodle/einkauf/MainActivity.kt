@@ -21,6 +21,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
+import android.widget.TextView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -42,10 +43,19 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
-        val adapter = ItemListAdapter(this)
+        val adapter = ItemListAdapter(this, {
+            Toast.makeText(
+                applicationContext,
+                "amount: $it",
+                Toast.LENGTH_LONG
+            ).show()
+        })
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
         //recyclerView.layoutManager = GridLayoutManager(this, 2)
+
+        val sumActual: TextView = findViewById(R.id.sum_actual)
+        val sumPlaned: TextView = findViewById(R.id.sum_planed)
 
         // Get a new or existing ViewModel from the ViewModelProvider.
         itemViewModel = ViewModelProviders.of(this).get(ItemViewModel::class.java)
@@ -56,13 +66,32 @@ class MainActivity : AppCompatActivity() {
         itemViewModel.allItems.observe(this, Observer { items ->
             // Update the cached copy of the items in the adapter.
             items?.let { adapter.setItems(it) }
-        })
+
+            sumActual.text=actualSum(items)
+            sumPlaned.text=planedSum(items)
+        }) 
 
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
             val intent = Intent(this@MainActivity, NewItemActivity::class.java)
             startActivityForResult(intent, newWordActivityRequestCode)
         }
+    }
+
+    private fun actualSum(items: List<Item>?): String {
+        val sum =if (items!=null) {
+            items.sumBy { if (it.active) it.amount*it.unitPriceCent  else 0}
+        } else 0
+
+        return Numbers.amountAsEuro(sum)
+    }
+
+    private fun planedSum(items: List<Item>?): String {
+        val sum =if (items!=null) {
+            items.sumBy { it.amount*it.unitPriceCent }
+        } else 0
+
+        return Numbers.amountAsEuro(sum)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {

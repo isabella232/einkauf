@@ -21,11 +21,13 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.Spinner
 import android.widget.TextView
 
 class ItemListAdapter internal constructor(
-        context: Context
+        context: Context,
+        private val onAmountChanged: (Any) -> Unit
 ) : RecyclerView.Adapter<ItemListAdapter.ItemViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -35,6 +37,18 @@ class ItemListAdapter internal constructor(
         val nameView: TextView = itemView.findViewById(R.id.textView)
         val priceView: TextView = itemView.findViewById(R.id.price)
         val amountView: Spinner = itemView.findViewById(R.id.amount)
+
+        init {
+            amountView.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                    onAmountChanged(amountView.selectedItem)
+                }
+
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    onAmountChanged(amountView.selectedItem)
+                }
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
