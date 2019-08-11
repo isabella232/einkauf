@@ -53,9 +53,9 @@ class MainActivity : AppCompatActivity() {
         // Add an observer on the LiveData returned by getAlphabetizedWords.
         // The onChanged() method fires when the observed data changes and the activity is
         // in the foreground.
-        itemViewModel.allItems.observe(this, Observer { words ->
-            // Update the cached copy of the words in the adapter.
-            words?.let { adapter.setWords(it) }
+        itemViewModel.allItems.observe(this, Observer { items ->
+            // Update the cached copy of the items in the adapter.
+            items?.let { adapter.setItems(it) }
         })
 
         val fab = findViewById<FloatingActionButton>(R.id.fab)

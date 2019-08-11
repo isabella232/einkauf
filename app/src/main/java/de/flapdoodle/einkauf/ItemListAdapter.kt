@@ -29,7 +29,7 @@ class ItemListAdapter internal constructor(
 ) : RecyclerView.Adapter<ItemListAdapter.ItemViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-    private var words = emptyList<Item>() // Cached copy of words
+    private var items = emptyList<Item>() // Cached copy of items
 
     inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameView: TextView = itemView.findViewById(R.id.textView)
@@ -43,18 +43,18 @@ class ItemListAdapter internal constructor(
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        val current = words[position]
+        val current = items[position]
         holder.nameView.text = current.name
         holder.priceView.text = "${current.unitPriceCent.toDouble() / 100.0} €"
         holder.amountView.setSelection(0)
     }
 
-    internal fun setWords(words: List<Item>) {
-        this.words = words
+    internal fun setItems(items: List<Item>) {
+        this.items = items
         notifyDataSetChanged()
     }
 
-    override fun getItemCount() = words.size
+    override fun getItemCount() = items.size
 }
 
 
