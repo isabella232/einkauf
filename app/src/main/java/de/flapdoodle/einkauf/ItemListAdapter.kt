@@ -40,28 +40,6 @@ class ItemListAdapter internal constructor(
         val amountView: Spinner = itemView.findViewById(R.id.amount)
         val checkboxView: CheckBox = itemView.findViewById(R.id.active)
         val imageButton: ImageButton = itemView.findViewById(R.id.delete)
-        var current: Item? = null
-
-        init {
-            amountView.onItemSelectedListener = FixedOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-                    //onAmountChanged(current, holder.amountView.selectedItem.toString().toInt())
-                }
-
-                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    onAmountChanged(current!!, amountView.selectedItem.toString().toInt())
-                }
-            })
-            checkboxView.setOnCheckedChangeListener { compoundButton, checked ->
-                onActiveChanged(current!!, checked)
-            }
-            imageButton.setOnClickListener {
-                onDelete(current!!)
-            }
-            nameView.setOnClickListener {
-                onEdit(current!!)
-            }
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -72,13 +50,35 @@ class ItemListAdapter internal constructor(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val current = items[position]
 
-        holder.current = current
         holder.nameView.text = current.name
         holder.priceView.text = "${current.unitPriceCent.toDouble() / 100.0} €"
+
+        holder.checkboxView.setOnCheckedChangeListener(null)
+        holder.checkboxView.isChecked= current.active
 
         @Suppress("UNCHECKED_CAST") val ad = holder.amountView.adapter as ArrayAdapter<String>
         val pos = ad.getPosition(current.amount.toString())
         holder.amountView.setSelection(pos)
+
+        holder.amountView.onItemSelectedListener = FixedOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                //onAmountChanged(current, holder.amountView.selectedItem.toString().toInt())
+            }
+
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                onAmountChanged(current, holder.amountView.selectedItem.toString().toInt())
+            }
+        })
+        holder.checkboxView.setOnCheckedChangeListener { compoundButton, checked ->
+            println("-> "+current.id+" = "+checked+" from "+compoundButton)
+            onActiveChanged(current, checked)
+        }
+        holder.imageButton.setOnClickListener {
+            onDelete(current)
+        }
+        holder.nameView.setOnClickListener {
+            onEdit(current)
+        }
     }
 
     internal fun setItems(items: List<Item>) {

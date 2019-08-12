@@ -34,7 +34,7 @@ limitations under the License. -->
             android:layout_height="0dp"
             tools:listitem="@layout/recyclerview_item" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/include2">
+            app:layout_constraintBottom_toTopOf="@+id/include2" android:scrollbarStyle="insideOverlay">
 
     </androidx.recyclerview.widget.RecyclerView>
 

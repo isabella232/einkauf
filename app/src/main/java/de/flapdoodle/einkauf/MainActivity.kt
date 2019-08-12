@@ -28,6 +28,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.appcompat.widget.Toolbar
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import android.view.MotionEvent
+
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -63,6 +66,14 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
         //recyclerView.layoutManager = GridLayoutManager(this, 2)
+
+        if (false) {
+            recyclerView.addOnItemTouchListener(object : RecyclerView.SimpleOnItemTouchListener() {
+                override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                    return false
+                }
+            })
+        }
 
         val sumActual: TextView = findViewById(R.id.sum_actual)
         val sumPlaned: TextView = findViewById(R.id.sum_planed)
