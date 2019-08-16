@@ -29,9 +29,9 @@ limitations under the License. -->
     <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
+            android:inputType="numberSigned|numberDecimal"
             android:ems="10"
-            android:id="@+id/edit_price" android:hint="@string/hint_price"/>
+            android:id="@+id/edit_price" android:hint="@string/hint_price" android:digits="0123456789,."/>
     <Button
             android:id="@+id/button_save"
             android:layout_width="match_parent"

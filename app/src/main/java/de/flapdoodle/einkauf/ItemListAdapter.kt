@@ -51,7 +51,7 @@ class ItemListAdapter internal constructor(
         val current = items[position]
 
         holder.nameView.text = current.name
-        holder.priceView.text = "${current.unitPriceCent.toDouble() / 100.0} €"
+        holder.priceView.text = Numbers.amountAsEuro(current.unitPriceCent)
 
         holder.checkboxView.setOnCheckedChangeListener(null)
         holder.checkboxView.isChecked= current.active

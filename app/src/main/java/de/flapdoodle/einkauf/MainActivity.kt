@@ -120,10 +120,10 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == newItemActivityRequestCode && resultCode == Activity.RESULT_OK) {
             intentData?.let { data ->
                 val name = data.getStringExtra(NewItemActivity.EXTRA_REPLY_NAME)
-                val price = data.getDoubleExtra(NewItemActivity.EXTRA_REPLY_PRICE, 0.0)
+                val price: MONEY  = data.getIntExtra(NewItemActivity.EXTRA_REPLY_PRICE, 0)
                 val word = Item(
                     name = name,
-                    unitPriceCent = (price * 100).toInt(),
+                    unitPriceCent = price,
                     amount = 1
                 )
                 itemViewModel.insert(word)
@@ -133,9 +133,9 @@ class MainActivity : AppCompatActivity() {
                 intentData?.let { data ->
                     val id = data.getIntExtra(EditItemActivity.EXTRA_REPLY_ID, -1)
                     val name = data.getStringExtra(EditItemActivity.EXTRA_REPLY_NAME)
-                    val price = data.getDoubleExtra(EditItemActivity.EXTRA_REPLY_PRICE, 0.0)
-                    if (id!=-1) {
-                        itemViewModel.updateNameAndPrice(id, name, (price * 100).toInt())
+                    val price: MONEY = data.getIntExtra(EditItemActivity.EXTRA_REPLY_PRICE, 0)
+                    if (id!=-1 && name!=null) {
+                        itemViewModel.updateNameAndPrice(id, name, price)
                     }
                 }
             } else {

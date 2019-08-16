@@ -41,7 +41,7 @@ class EditItemActivity : AppCompatActivity() {
     private lateinit var editPriceView: EditText
 
     private var name: String? = null
-    private var price: Double? = null
+    private var price: MONEY? = null
     private var id: Int? = null
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,11 +54,11 @@ class EditItemActivity : AppCompatActivity() {
         if (id==-1) throw IllegalArgumentException("invalid id: $id")
 
         name = intent.getStringExtra(EXTRA_REPLY_NAME)
-        price = intent.getIntExtra(EXTRA_REPLY_PRICE, 0) / 100.0
+        price = intent.getIntExtra(EXTRA_REPLY_PRICE, 0)
         //getExtraData()
 
         editNameView.setText(name, TextView.BufferType.EDITABLE);
-        editPriceView.setText(DecimalFormat.getNumberInstance().format(price!!), TextView.BufferType.EDITABLE);
+        editPriceView.setText(Numbers.amountAsString(price), TextView.BufferType.EDITABLE);
 
 
         val button = findViewById<Button>(R.id.button_save)
@@ -82,8 +82,7 @@ class EditItemActivity : AppCompatActivity() {
         })
         editPriceView.addTextChangedListener(Validate {
             try {
-                val x = DecimalFormat.getNumberInstance().parse(it)
-                price = x?.toDouble()
+                price = Numbers.parse(it)
             } catch (ex: ParseException) {
                 price = null
                 Toast.makeText(

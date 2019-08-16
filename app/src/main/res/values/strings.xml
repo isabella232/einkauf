@@ -17,9 +17,9 @@ limitations under the License. -->
     <string name="action_settings">Einstellungen</string>
     <string name="hint_word">Word…</string>
     <string name="button_save">Speichern</string>
-    <string name="empty_not_saved">Word not saved because it is empty.</string>
-    <string name="hint_name">Name …</string>
-    <string name="hint_price">Einzelpreis …</string>
+    <string name="empty_not_saved">Abgebrochen</string>
+    <string name="hint_name">Name (Mehl, Eier,…)</string>
+    <string name="hint_price">Einzelpreis…</string>
     <string name="summary_divide">/</string>
     <string-array name="counts">
         <item>0</item>

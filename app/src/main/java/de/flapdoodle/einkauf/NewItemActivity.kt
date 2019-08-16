@@ -39,13 +39,13 @@ class NewItemActivity : AppCompatActivity() {
     private lateinit var editPriceView: EditText
 
     private var name: String? = null
-    private var price: Double? = null
+    private var price: MONEY? = null
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_item)
         editNameView = findViewById(R.id.edit_word)
-        editPriceView = findViewById(R.id.edit_price)
+        editPriceView = findViewById(R.id.new_price)
 
         val button = findViewById<Button>(R.id.button_save)
         button.setOnClickListener {
@@ -67,8 +67,7 @@ class NewItemActivity : AppCompatActivity() {
         })
         editPriceView.addTextChangedListener(Validate {
             try {
-                val x = DecimalFormat.getNumberInstance().parse(it)
-                price = x?.toDouble()
+                price = Numbers.parse(it)
             } catch (ex: ParseException) {
                 price = null
                 Toast.makeText(
