@@ -56,7 +56,14 @@ class ItemListAdapter internal constructor(
         holder.checkboxView.setOnCheckedChangeListener(null)
         holder.checkboxView.isChecked= current.active
 
-        @Suppress("UNCHECKED_CAST") val ad = holder.amountView.adapter as ArrayAdapter<String>
+        /*
+        Spinner spinnerCountShoes = (Spinner)findViewById(R.id.spinner_countshoes);
+ArrayAdapter<String> spinnerCountShoesArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.shoes));
+spinnerCountShoes.setAdapter(spinnerCountShoesArrayAdapter);
+         */
+        @Suppress("UNCHECKED_CAST")
+        val ad = holder.amountView.adapter as ArrayAdapter<String>
+        ad.setDropDownViewResource(R.layout.amount_spinner_item)
         val pos = ad.getPosition(current.amount.toString())
         holder.amountView.setSelection(pos)
 
